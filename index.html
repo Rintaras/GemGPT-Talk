@@ -17,80 +17,89 @@
             color: #1a1a1a;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            margin: 10px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         header {
-            padding: 20px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10;
         }
 
         header h1 {
-            font-size: 24px;
+            font-size: 20px;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        .header-icon {
-            width: 28px;
-            height: 28px;
-            color: #ffd700;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-
-        .warn {
-            color: #ff6b6b;
-            font-size: 13px;
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 107, 107, 0.1);
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 107, 107, 0.2);
-        }
-
-        .warn-icon {
-            width: 16px;
-            height: 16px;
+        header h1 i {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         main {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            height: calc(100vh - 80px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             overflow: hidden;
+            flex: 1;
+            position: relative;
+            z-index: 5;
         }
 
         .controls {
             display: flex;
             gap: 16px;
             padding: 20px 24px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.9);
             align-items: center;
-            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .controls::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
         }
 
         .controls label {
@@ -98,99 +107,38 @@
             align-items: center;
             gap: 8px;
             font-weight: 600;
-            color: #495057;
+            color: #4a5568;
             font-size: 14px;
-        }
-
-        .controls .label-icon {
-            width: 18px;
-            height: 18px;
-            color: #6c757d;
+            white-space: nowrap;
         }
 
         .controls input[type="text"] {
             flex: 1;
-            min-width: 200px;
             padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
             font-size: 14px;
             transition: all 0.3s ease;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            min-width: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .controls input[type="text"]:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .action-button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .action-button:hover::before {
-            left: 100%;
-        }
-
-        .action-button:hover {
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .start-button {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-        }
-
-        .pause-button {
-            background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
-            color: white;
-        }
-
-        .resume-button {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-        }
-
-        .button-icon {
-            width: 18px;
-            height: 18px;
         }
 
         .log {
-            flex: 1;
             padding: 20px 24px;
             overflow-y: auto;
-            background: white;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             scroll-behavior: smooth;
+            flex: 1;
+            min-height: 0;
+            position: relative;
         }
 
         .log::-webkit-scrollbar {
@@ -198,17 +146,35 @@
         }
 
         .log::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 4px;
         }
 
         .log::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
+            background: rgba(102, 126, 234, 0.3);
             border-radius: 4px;
         }
 
         .log::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+            background: rgba(102, 126, 234, 0.5);
+        }
+
+        .log::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .log::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        .log::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .log::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .msg {
@@ -216,13 +182,30 @@
             display: flex;
             align-items: flex-start;
             gap: 12px;
-            animation: fadeInUp 0.5s ease-out;
+            animation: fadeInUp 0.4s ease;
+            position: relative;
+        }
+
+        .msg::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -8px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .msg:hover::before {
+            opacity: 1;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
 
             to {
@@ -231,145 +214,117 @@
             }
         }
 
-        .msg .icon {
-            width: 20px;
-            height: 20px;
-            margin-top: 4px;
-            flex-shrink: 0;
-            padding: 8px;
+        .msg .avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: #f0f0f0;
+            border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
-        .msg.user .icon {
-            background: #e3f2fd;
-            border-color: #2196f3;
-            color: #1976d2;
+        .msg .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .msg.chatgpt .icon {
-            background: #f3e5f5;
-            border-color: #9c27b0;
-            color: #7b1fa2;
+        .msg .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
-        .msg.gemini .icon {
-            background: #e8f5e8;
-            border-color: #4caf50;
-            color: #388e3c;
+        .msg .avatar:hover {
+            transform: scale(1.05);
         }
 
-        .msg.system .icon {
-            background: #fff3e0;
-            border-color: #ff9800;
-            color: #f57c00;
+        .msg.user .avatar {
+            background: #f0f0f0;
+        }
+
+        .msg.chatgpt .avatar {
+            background: #f0f0f0;
+        }
+
+        .msg.gemini .avatar {
+            background: #f0f0f0;
         }
 
         .msg .content {
-            flex: 1;
-            background: #f8f9fa;
-            padding: 16px 20px;
-            border-radius: 16px;
-            border: 1px solid #e9ecef;
+            background: white;
+            padding: 14px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
             position: relative;
         }
 
+        .msg .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .msg .content:hover::before {
+            opacity: 1;
+        }
+
+        .msg .content:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
         .msg.user .content {
-            background: #e3f2fd;
-            border-color: #bbdefb;
-        }
-
-        .msg.chatgpt .content {
-            background: #f3e5f5;
-            border-color: #e1bee7;
-        }
-
-        .msg.gemini .content {
-            background: #e8f5e8;
-            border-color: #c8e6c9;
-        }
-
-        .msg.system .content {
-            background: #fff3e0;
-            border-color: #ffe0b2;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin-left: auto;
         }
 
         .msg .who {
-            font-weight: 700;
-            margin-right: 8px;
-            font-size: 14px;
-        }
-
-        .msg .text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #2c3e50;
-        }
-
-        .composer {
-            display: flex;
-            gap: 12px;
-            padding: 20px 24px;
-            background: #f8f9fa;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .composer input[type="text"] {
-            flex: 1;
-            padding: 16px 20px;
-            border: 2px solid #e9ecef;
-            border-radius: 16px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .composer input[type="text"]:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .composer button {
-            padding: 16px 24px;
-            border: none;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
             font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            font-size: 15px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .composer button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        .msg.user .who {
+            display: none;
         }
 
-        .composer button:disabled {
-            opacity: 0.6;
-            cursor: default;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .composer .send-icon {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* 思考中アニメーション */
         .thinking {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 16px 0;
-            opacity: 0.8;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            max-width: 75%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             animation: pulse 2s infinite;
         }
 
@@ -377,83 +332,25 @@
 
             0%,
             100% {
-                opacity: 0.8;
+                opacity: 1;
             }
 
             50% {
-                opacity: 1;
+                opacity: 0.8;
             }
-        }
-
-        .thinking .icon {
-            width: 20px;
-            height: 20px;
-            padding: 8px;
-            border-radius: 50%;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-        }
-
-        .thinking.chatgpt .icon {
-            background: #f3e5f5;
-            border-color: #9c27b0;
-            color: #7b1fa2;
-        }
-
-        .thinking.gemini .icon {
-            background: #e8f5e8;
-            border-color: #4caf50;
-            color: #388e3c;
-        }
-
-        .thinking .content {
-            flex: 1;
-            background: #f8f9fa;
-            padding: 16px 20px;
-            border-radius: 16px;
-            border: 1px solid #e9ecef;
-        }
-
-        .thinking.chatgpt .content {
-            background: #f3e5f5;
-            border-color: #e1bee7;
-        }
-
-        .thinking.gemini .content {
-            background: #e8f5e8;
-            border-color: #c8e6c9;
-        }
-
-        .thinking .who {
-            font-weight: 700;
-            margin-right: 8px;
-            font-size: 14px;
-        }
-
-        .thinking.chatgpt .who {
-            color: #7b1fa2;
-        }
-
-        .thinking.gemini .who {
-            color: #388e3c;
         }
 
         .thinking .dots {
             display: flex;
             gap: 6px;
-            margin-top: 8px;
         }
 
         .thinking .dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #6c757d;
-            animation: thinking-dot 1.4s infinite ease-in-out;
-        }
-
-        .thinking .dot:nth-child(1) {
-            animation-delay: 0s;
+            background: #667eea;
+            animation: thinking 1.4s infinite;
         }
 
         .thinking .dot:nth-child(2) {
@@ -464,104 +361,367 @@
             animation-delay: 0.4s;
         }
 
-        @keyframes thinking-dot {
+        @keyframes thinking {
 
             0%,
-            80%,
+            60%,
             100% {
+                opacity: 0.3;
                 transform: scale(0.8);
-                opacity: 0.5;
             }
 
-            40% {
-                transform: scale(1);
+            30% {
                 opacity: 1;
+                transform: scale(1);
             }
         }
 
-        /* レスポンシブデザイン */
-        @media (max-width: 768px) {
-            .app-container {
-                margin: 5px;
-                border-radius: 15px;
-            }
+        .composer {
+            display: flex;
+            gap: 16px;
+            padding: 20px 24px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.95);
+            align-items: center;
+            backdrop-filter: blur(15px);
+            flex-shrink: 0;
+            position: relative;
+        }
 
+        .composer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.2), transparent);
+        }
+
+        .composer input[type="text"] {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            min-width: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .composer input[type="text"]:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .composer button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .composer button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .composer button:hover::before {
+            left: 100%;
+        }
+
+        .composer button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .composer button:active {
+            transform: translateY(0);
+        }
+
+        .composer button:disabled {
+            opacity: 0.6;
+            cursor: default;
+            transform: none;
+        }
+
+
+
+        .system-msg {
+            text-align: center;
+            color: #718096;
+            font-size: 13px;
+            margin: 16px 0;
+            font-style: italic;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 50%;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .control-btn:hover::before {
+            opacity: 1;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .control-btn i {
+            width: 20px;
+            height: 20px;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        .start-btn:hover {
+            box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+        }
+
+        .pause-btn {
+            background: linear-gradient(135deg, #f57c00, #ff9800);
+            color: white;
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3);
+        }
+
+        .pause-btn:hover {
+            box-shadow: 0 6px 16px rgba(245, 124, 0, 0.4);
+        }
+
+        .resume-btn {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+
+        .resume-btn:hover {
+            box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
             header {
-                padding: 16px 20px;
+                padding: 10px 16px;
             }
 
             header h1 {
-                font-size: 20px;
+                font-size: 16px;
             }
 
             .controls {
-                padding: 16px 20px;
-                flex-direction: column;
-                align-items: stretch;
+                padding: 12px 16px;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .controls label {
+                font-size: 12px;
             }
 
             .controls input[type="text"] {
-                min-width: auto;
-            }
-
-            .action-buttons {
-                justify-content: center;
+                padding: 8px 12px;
+                font-size: 12px;
             }
 
             .log {
-                padding: 16px 20px;
+                padding: 12px 16px;
             }
 
             .composer {
-                padding: 16px 20px;
+                padding: 12px 16px;
+                gap: 8px;
+            }
+
+            .composer input[type="text"] {
+                padding: 10px 14px;
+                font-size: 12px;
+            }
+
+            .msg {
+                margin: 8px 0;
+                gap: 8px;
+            }
+
+            .msg .avatar {
+                width: 32px;
+                height: 32px;
+            }
+
+            .msg .content {
+                padding: 8px 12px;
+                max-width: 85%;
+                font-size: 13px;
+            }
+
+            .control-btn {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                padding: 8px;
+            }
+
+            .control-btn i {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 8px 12px;
+            }
+
+            header h1 {
+                font-size: 14px;
+            }
+
+            .controls {
+                padding: 8px 12px;
+                gap: 6px;
+            }
+
+            .controls label {
+                font-size: 11px;
+            }
+
+            .controls input[type="text"] {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .log {
+                padding: 8px 12px;
+            }
+
+            .composer {
+                padding: 8px 12px;
+                gap: 6px;
+            }
+
+            .composer input[type="text"] {
+                padding: 8px 12px;
+                font-size: 11px;
+            }
+
+            .msg {
+                margin: 6px 0;
+                gap: 6px;
+            }
+
+            .msg .avatar {
+                width: 28px;
+                height: 28px;
+            }
+
+            .msg .content {
+                padding: 6px 10px;
+                max-width: 90%;
+                font-size: 12px;
+            }
+
+            .control-btn {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                padding: 6px;
+            }
+
+            .control-btn i {
+                width: 14px;
+                height: 14px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="app-container">
-        <header>
-            <h1>
-                <i data-lucide="message-circle" class="header-icon"></i>
-                GemGPT Talk
-            </h1>
-            <div id="envWarn" class="warn">
-                <i data-lucide="alert-triangle" class="warn-icon"></i>
-                <span></span>
-            </div>
-        </header>
-        <main>
-            <div class="controls">
-                <label for="theme">
-                    <i data-lucide="lightbulb" class="label-icon"></i>
-                    現在のテーマ:
-                </label>
-                <input id="theme" type="text" placeholder="例: 旅行の思い出、最新のAI動向 など" />
-                <div class="action-buttons">
-                    <button id="startBtn" class="action-button start-button">
-                        <i data-lucide="play" class="button-icon"></i>
-                        会話開始
-                    </button>
-                    <button id="pauseBtn" class="action-button pause-button" style="display: none;">
-                        <i data-lucide="pause" class="button-icon"></i>
-                        一時停止
-                    </button>
-                </div>
-            </div>
-            <div id="log" class="log" aria-live="polite"></div>
-            <div class="composer">
-                <input id="input" type="text" placeholder="自分の発言を入力してEnter または 送信" />
-                <button id="send">
-                    <i data-lucide="send" class="send-icon"></i>
-                    送信
-                </button>
-            </div>
-        </main>
-    </div>
-    <script type="module" src="dist/renderer.js"></script>
+    <header>
+        <h1>
+            <i data-lucide="message-circle"></i>
+            GemGPT Talk
+        </h1>
+    </header>
+    <main>
+        <div class="controls">
+            <label for="theme">
+                <i data-lucide="lightbulb"></i>
+                テーマ:
+            </label>
+            <input id="theme" type="text" placeholder="例: 旅行の思い出、最新のAI動向 など" />
+            <div class="control-buttons"></div>
+        </div>
+        <div id="log" class="log" aria-live="polite"></div>
+        <div class="composer">
+            <input id="input" type="text" placeholder="メッセージを入力..." />
+            <button id="send">
+                <i data-lucide="send"></i>
+                送信
+            </button>
+        </div>
+    </main>
+    <script type="module" src="renderer.js"></script>
     <script>
-        // Lucideアイコンを初期化
         lucide.createIcons();
     </script>
 </body>
