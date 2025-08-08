@@ -47,6 +47,12 @@ ChatGPT と Google Gemini が現在のテーマに沿って自然に会話を続
 - OpenAI API キー
 - Google Gemini API キー
 
+### システム要件
+- **OS**: Windows 10+, macOS 10.14+, Linux
+- **メモリ**: 4GB以上推奨
+- **ストレージ**: 100MB以上の空き容量
+- **ネットワーク**: インターネット接続必須（API通信）
+
 ### 1. リポジトリのクローン
 ```bash
 git clone <repository-url>
@@ -77,18 +83,22 @@ npm run dev
 
 1. **アプリケーション起動**
    - アプリを起動すると、美しいUIが表示されます
+   - 初回起動時はAPIキーの設定が必要です
 
 2. **テーマ設定**
    - 画面上部の「テーマ」入力欄に会話のテーマを入力
    - 例：「日本の経済について」「AI技術の未来」「旅行の思い出」
+   - テーマは会話中でも変更可能です
 
 3. **会話開始**
    - 「会話開始」ボタンをクリック、またはテーマ入力後にEnterキーを押す
    - ChatGPTとGeminiが交互に会話を開始
+   - 各AIの個性を活かした自然な会話が展開されます
 
 4. **ユーザー参加**
    - 下部の入力欄にメッセージを入力
    - Enterキーまたは「送信」ボタンで会話に参加
+   - いつでも会話に割り込むことができます
 
 ### 高度な使い方
 
@@ -110,25 +120,41 @@ npm run dev
 ### アーキテクチャ
 ```
 GemGPT-Talk/
-├── main.js          # Electronメインプロセス
-├── renderer.js      # レンダラープロセス（UI制御）
-├── preload.js       # セキュアなAPIブリッジ
-├── index.html       # UIレイアウト
-└── package.json     # 依存関係管理
+├── main.js          # Electronメインプロセス（AI API通信、IPC制御）
+├── renderer.js      # レンダラープロセス（UI制御、会話管理）
+├── preload.js       # セキュアなAPIブリッジ（IPC通信）
+├── index.html       # UIレイアウト（レスポンシブデザイン）
+├── package.json     # 依存関係管理
+└── .env             # 環境変数設定（APIキー）
 ```
 
+### プロセス構成
+- **メインプロセス** (`main.js`): AI APIとの通信、ウィンドウ管理
+- **レンダラープロセス** (`renderer.js`): UI制御、会話状態管理
+- **プリロードスクリプト** (`preload.js`): セキュアなIPC通信
+
 ### 使用技術
-- **フレームワーク**: Electron
-- **AI API**: OpenAI API, Google Gemini API
+- **フレームワーク**: Electron (v30.0.0)
+- **AI API**: OpenAI API (v4.52.7), Google Gemini API (v0.19.0)
 - **言語**: JavaScript (ESM)
-- **設定管理**: dotenv
+- **設定管理**: dotenv (v16.4.5)
 - **UI**: HTML5, CSS3, Vanilla JavaScript
 - **アイコン**: Lucide Icons
+- **プロセス間通信**: IPC (Inter-Process Communication)
+- **セキュリティ**: コンテキスト分離、サンドボックス
 
 ### セキュリティ
 - **コンテキスト分離**: メインプロセスとレンダラープロセスの分離
-- **APIブリッジ**: preload.jsによる安全な通信
+- **APIブリッジ**: preload.jsによる安全なIPC通信
 - **サンドボックス**: セキュリティ強化
+- **環境変数**: APIキーの安全な管理
+- **プロセス間通信**: セキュアなIPC通信
+
+### 会話管理システム
+- **自動一時停止**: 30秒間アクティビティなしで自動停止
+- **会話履歴**: 最新8件の会話を保持
+- **プロンプトエンジニアリング**: 動的なプロンプト生成
+- **エラーハンドリング**: API制限、ネットワークエラー対応
 
 ## 🎯 ユースケース
 
@@ -155,7 +181,24 @@ GemGPT-Talk/
 ```javascript
 function buildPrompt({ theme, history, speaker }) {
     // プロンプトの調整
+    // theme: 現在のテーマ
+    // history: 会話履歴（最新8件）
+    // speaker: 'chatgpt' または 'gemini'
 }
+```
+
+### 会話制御の調整
+`renderer.js` で会話の動作をカスタマイズ可能：
+
+```javascript
+// 自動一時停止時間（ミリ秒）
+const AUTO_PAUSE_DELAY = 30000;
+
+// 最小会話間隔（ミリ秒）
+let minIntervalMs = 800;
+
+// 会話履歴保持件数
+const HISTORY_LIMIT = 8;
 ```
 
 ### UIのカスタマイズ
@@ -173,6 +216,20 @@ function buildPrompt({ theme, history, speaker }) {
 
 ```javascript
 const AUTO_PAUSE_DELAY = 30000; // 30秒
+```
+
+### 開発環境の設定
+開発時の便利な設定：
+
+```bash
+# 開発モードで起動
+npm run dev
+
+# 本番ビルド
+npm run build
+
+# 依存関係の更新
+npm update
 ```
 
 ## 🐛 トラブルシューティング
@@ -219,6 +276,18 @@ const AUTO_PAUSE_DELAY = 30000; // 30秒
 問題や質問がある場合は、GitHubのIssuesページで報告してください。
 
 ## 🔄 更新履歴
+
+### v1.2.0
+- 会話の多様性を向上
+- AIが反対意見や異なる視点を述べるようにプロンプトを修正
+- 「しかし」「一方で」「確かにそうですが」などの表現を追加
+- より活発な議論を促進する設定に変更
+
+### v1.1.0
+- 会話の途切れ問題を修正
+- ChatGPTとGeminiのトークン制限を500に増加
+- プロンプトの最適化による自然な会話の改善
+- 会話履歴の最適化（6件に調整）
 
 ### v1.0.0
 - 初期リリース

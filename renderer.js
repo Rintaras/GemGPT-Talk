@@ -18,7 +18,7 @@ let themeTypingTimer = null;
 let isThemeTyping = false;
 let autoPauseTimer = null;
 let lastActivityTime = Date.now();
-const AUTO_PAUSE_DELAY = 30000; // 30秒
+const AUTO_PAUSE_DELAY = 30000;
 
 function updateActivityTime() {
     lastActivityTime = Date.now();
@@ -44,7 +44,6 @@ function resetAutoPauseTimer() {
 function appendMessage(role, content) {
     messages.push({ role, content, t: Date.now() });
 
-    // アクティビティを記録
     updateActivityTime();
 
     const div = document.createElement('div');
@@ -168,11 +167,11 @@ async function stepOnce() {
     const theme = themeEl.value.trim();
     const provider = nextSpeaker;
 
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     showThinking(provider);
 
     try {
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
         const res = await window.api.askLLM({ provider, theme, history: messages });
 
         hideThinking();
@@ -214,7 +213,6 @@ function startConversation() {
         updatePauseButton();
     }
 
-    // 自動一時停止タイマーを開始
     resetAutoPauseTimer();
 
     stepOnce();
@@ -227,7 +225,6 @@ function togglePause() {
     if (isPaused) {
         appendMessage('system', '会話を一時停止しました。');
         hideThinking();
-        // 自動一時停止タイマーを停止
         if (autoPauseTimer) {
             clearTimeout(autoPauseTimer);
             autoPauseTimer = null;
@@ -237,7 +234,6 @@ function togglePause() {
         if (lastSpeaker) {
             nextSpeaker = lastSpeaker === 'chatgpt' ? 'gemini' : 'chatgpt';
         }
-        // 自動一時停止タイマーを再開
         resetAutoPauseTimer();
         if (!busy && !isUserTyping && !isThemeTyping) {
             setTimeout(stepOnce, 300);
@@ -279,31 +275,27 @@ function handleUserInput() {
     const text = inputEl.value.trim();
     if (!text) return;
 
-    // アクティビティを記録
     updateActivityTime();
 
-    // ユーザー入力を即座に追加
     appendMessage('user', text);
     inputEl.value = '';
 
-    // 会話が停止中なら再開
     if (isPaused) {
         isPaused = false;
         updatePauseButton();
         appendMessage('system', '会話を再開しました。');
     }
 
-    // 次のAIの応答を開始
     setTimeout(() => {
         if (running && !busy && !isThemeTyping) {
             stepOnce();
         }
-    }, 300);
+    }, 5000);
 }
 
 function handleThemeTyping() {
     isThemeTyping = true;
-    updateActivityTime(); // テーマ入力もアクティビティとして記録
+    updateActivityTime();
 
     if (themeTypingTimer) {
         clearTimeout(themeTypingTimer);
@@ -372,7 +364,6 @@ pauseBtn.addEventListener('click', togglePause);
 pauseBtn.style.display = 'none';
 controlButtons.appendChild(pauseBtn);
 
-// アイコンを初期化
 lucide.createIcons();
 
 checkEnv();
